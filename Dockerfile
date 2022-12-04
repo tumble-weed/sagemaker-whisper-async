@@ -1,7 +1,9 @@
 # Build an image that can do inference in SageMaker
 # This is a Python 2 image that uses the nginx, gunicorn, flask stack
 
-FROM ubuntu:20.04
+# FROM ubuntu:20.04
+# FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu18.04
+FROM pytorch/pytorch:1.13.0-cuda11.6-cudnn8-runtime
 # https://anonoz.github.io/tech/2020/04/24/docker-build-stuck-tzdata.html
 RUN apt-get -y update && \
          DEBIAN_FRONTEND=noninteractive \
@@ -30,7 +32,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install setuptools
 RUN pip3 install flask gevent gunicorn && \
         rm -rf /root/.cache
-RUN pip3 install torch torchvision torchaudio
+# RUN pip3 install torch torchvision torchaudio
 RUN pip3 install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git
 RUN pip3 install ffmpeg-python    
 RUN pip3 install transformers
