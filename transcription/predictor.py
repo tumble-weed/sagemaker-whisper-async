@@ -43,9 +43,9 @@ os.system(f'wget https://upload.wikimedia.org/wikipedia/commons/3/32/Audio_James
 
 # The flask app for serving predictions
 app = flask.Flask(__name__)
-global model
-model = whisper.load_model("large.pt")
-print('model loaded')
+# global model
+# model = whisper.load_model("large.pt")
+# print('model loaded')
 
 @app.route('/ping', methods=['GET'])
 def ping():
@@ -58,8 +58,15 @@ def ping():
 
 @app.route('/invocations', methods=['POST'])
 def transcribe():
-    global model
     print('invoked')
+#     global model
+    model = whisper.load_model("large.pt")
+    print('model loaded')
+    if torch.cuda.is_available():
+        model.to('cuda')
+    print('on cuda')
+
+    
     if flask.request.content_type == 'application/json':
         '''
         print("request.content_type == 'application/json'")
@@ -103,9 +110,6 @@ def transcribe():
 #         model = whisper.load_model("large.pt")
 #         print('model loaded')
         
-        if torch.cuda.is_available():
-            model.to('cuda')
-        print('on cuda')
         with torch.no_grad():
             result = model.transcribe(audio_path)
             print(result)
