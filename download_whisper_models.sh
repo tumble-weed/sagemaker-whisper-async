@@ -10,12 +10,12 @@
 #     "medium": "https://openaipublic.azureedge.net/main/whisper/models/345ae4da62f9b3d59415adc60127b97c714f32e89e936602e85993674d08dcb1/medium.pt",
 #     "large": "https://openaipublic.azureedge.net/main/whisper/models/e4b87e7e0bf463eb8e6956e646f1e277e901512310def2c24bf0e11bd3c28e9a/large.pt",
 # }
-if [[-f transcription/tiny.pt]]; then
+if [[ ! -f transcription/tiny.pt ]]; then
     echo "downloading tiny"
     wget https://openaipublic.azureedge.net/main/whisper/models/65147644a518d12f04e32d6f3b26facc3f8dd46e5390956a9424a650c0ce22b9/tiny.pt
     mv tiny.pt transcription
 fi
-if [[-f transcription/large.pt]]; then
+if [[ ! -f transcription/large.pt ]]; then
     echo "downloading large"
     wget https://openaipublic.azureedge.net/main/whisper/models/e4b87e7e0bf463eb8e6956e646f1e277e901512310def2c24bf0e11bd3c28e9a/large.pt
     mv large.pt transcription
