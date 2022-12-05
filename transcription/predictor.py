@@ -121,6 +121,7 @@ def transcribe():
     del model
     import gc;gc.collect()
     os.system(f'rm {audio_path}')
+    torch.cuda.empty_cache()
     return result
     
 
