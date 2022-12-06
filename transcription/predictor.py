@@ -114,14 +114,35 @@ def transcribe():
             result = model.transcribe(audio_path)
             print(result)
             print('result')
+    except OSError as e:
+        print('OSError',e)
+        print('BEFORE nvidia-smi')
+        del model
+        import gc;gc.collect()
+        os.system(f'rm {audio_path}')
+        torch.cuda.empty_cache()
+        print('AFTER nvidia-smi')
+        os.system('nvidia-smi')
+        raise e
+        
     except Exception as e:
         print(e)
+        print('BEFORE nvidia-smi')
+        del model
+        import gc;gc.collect()
+        os.system(f'rm {audio_path}')
+        torch.cuda.empty_cache()
+        print('AFTER nvidia-smi')
+        os.system('nvidia-smi')
         raise Exception
+
     print('returning')
     del model
     import gc;gc.collect()
     os.system(f'rm {audio_path}')
     torch.cuda.empty_cache()
+    print('FINAL nvidia-smi')
+    os.system('nvidia-smi')
     return result
     
 
