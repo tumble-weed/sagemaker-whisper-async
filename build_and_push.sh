@@ -6,7 +6,7 @@
 # The argument to this script is the image name. This will be used as the image on the local
 # machine and combined with the account and region to form the repository name for ECR.
 image=$1
-
+do_push=${2:-true}
 if [ "$image" == "" ]
 then
     echo "Usage: $0 <image-name>"
@@ -49,7 +49,8 @@ aws ecr get-login-password --region ${region}| docker login --username AWS --pas
 
 docker build  -t ${image} .
 docker tag ${image}:latest ${fullname}
-
-docker push ${fullname}
-
+if $do_push; then
+    docker push ${fullname}
+fi
+sleep 10
 # docker save --output image_class.tar ${image}  
