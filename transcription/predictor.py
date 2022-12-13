@@ -14,6 +14,7 @@ import whisper
 import base64
 import pprint
 import torch
+import gc
 DATA_PATH = '/tmp/data'
 
 # in this tmp folder, audio for inference will be saved
@@ -59,7 +60,17 @@ def ping():
 @app.route('/invocations', methods=['POST'])
 def transcribe():
     print('invoked')
-#     global model
+    torch.cuda.empty_cache()
+    gc.collect()
+    print('initial empty_cache')
+    os.system('nvidia-smi')
+    
+#         model = whisper.load_model("large",download_root=TMP_MODEL_PATH)
+#         model = whisper.load_model("tiny.pt")
+#         model = whisper.load_model("large.pt")
+#         print('model loaded')
+        
+
     model = whisper.load_model("large.pt")
     print('model loaded')
     if torch.cuda.is_available():
@@ -105,20 +116,17 @@ def transcribe():
     
 #     return {'status':'returning from transcribe'}
     try:
-#         model = whisper.load_model("large",download_root=TMP_MODEL_PATH)
-#         model = whisper.load_model("tiny.pt")
-#         model = whisper.load_model("large.pt")
-#         print('model loaded')
-        
         with torch.no_grad():
             result = model.transcribe(audio_path)
             print(result)
             print('result')
     except OSError as e:
+        
         print('OSError',e)
         print('BEFORE nvidia-smi')
+        del data
         del model
-        import gc;gc.collect()
+        gc.collect()
         os.system(f'rm {audio_path}')
         torch.cuda.empty_cache()
         print('AFTER nvidia-smi')
@@ -128,8 +136,9 @@ def transcribe():
     except Exception as e:
         print(e)
         print('BEFORE nvidia-smi')
+        del data
         del model
-        import gc;gc.collect()
+        gc.collect()
         os.system(f'rm {audio_path}')
         torch.cuda.empty_cache()
         print('AFTER nvidia-smi')
@@ -138,7 +147,8 @@ def transcribe():
 
     print('returning')
     del model
-    import gc;gc.collect()
+    del data
+    gc.collect()
     os.system(f'rm {audio_path}')
     torch.cuda.empty_cache()
     print('FINAL nvidia-smi')
@@ -146,3 +156,6 @@ def transcribe():
     return result
     
 
+# @app.teardown_request
+# def teardown_request(exception):
+#     gc.collect()
