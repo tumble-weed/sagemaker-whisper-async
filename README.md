@@ -1,4 +1,14 @@
-important resources:
-reference tutorial: https://towardsdatascience.com/brewing-up-custom-ml-models-on-aws-sagemaker-e09b64627722
-repository: https://github.com/thushv89/xgboost-aws-container/tree/master/local_test/test_dir/input
-making the client notebook: https://towardsdatascience.com/deploying-a-custom-docker-model-with-sagemaker-to-a-serverless-front-end-with-s3-8ee07edc24e6
+
+## To build an image and push it to ecr
+
+```bash build_and_push.sh dummy-whisper-async true```
+
+## To build an image locally
+
+```bash build_and_push.sh dummy-whisper-async false```
+
+## To build an image and deploy as sagemaker async endpoint
+
+```bash build_push_deploy.sh```
+
+This file includes options for selecting the instance type, currently it is set to __g4dn.2xlarge__
