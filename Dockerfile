@@ -57,3 +57,4 @@ WORKDIR /opt/program
 RUN wget https://upload.wikimedia.org/wikipedia/commons/3/32/Audio_James_Randi.wav
 RUN chmod 755 serve
 RUN chmod 755 train
+CMD ["serve"]
