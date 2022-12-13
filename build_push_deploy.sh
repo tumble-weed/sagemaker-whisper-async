@@ -1,7 +1,10 @@
+set -e
 model_prefix="dummy-whisper-async"
 # instance_type="ml.m6g.xlarge"
 # instance_type="ml.t2.medium" # for base
-instance_type="ml.g4dn.xlarge"
+# instance_type="ml.g4dn.xlarge"
+instance_type="ml.g4dn.2xlarge"
+
 train_instance_type="ml.m4.xlarge"
 autoscaling=false
 python cleanup.py --endpoint_name "${model_prefix}-endpoint" --endpoint_config_name "${model_prefix}-endpoint" --model_name $model_prefix --autoscaling False
