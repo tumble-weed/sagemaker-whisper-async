@@ -19,8 +19,8 @@ def send_request(audio_path,url):
         os.system(f'bash predict.sh {url} {f.name} "application/json"')
 
 # audio_path = '/home/ec2-user/SageMaker/Audio_James_Randi.wav'
-# audio_path = '/home/ec2-user/SageMaker/Audio_James_Randi_Long_Version.ogg'
-audio_path = '/home/ec2-user/SageMaker/thecantervilleghostversion2_01_wilde_128kb.mp3'
+audio_path = '/home/ec2-user/SageMaker/Audio_James_Randi_Long_Version.ogg'
+# audio_path = '/home/ec2-user/SageMaker/thecantervilleghostversion2_01_wilde_128kb.mp3'
 start = timer()
 send_request(audio_path,'127.0.0.1:5000')
 
